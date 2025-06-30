@@ -1,30 +1,46 @@
 const express = require('express');
 const router = express.Router();
 
-let messages = []; // En memoria, sin base de datos
+let messages = []; // almacenamiento temporal
 
-// GET /api/messages
+// GET
 router.get('/', (req, res) => {
   res.json(messages);
 });
 
+// POST
 // POST /api/messages
 router.post('/', (req, res) => {
-  const message = {
-    _id: Date.now().toString(),
-    text: req.body.text,
+  const newMessage = {
+    _id: Date.now().toString(), // 👈 _id con string
+    text: req.body.text
   };
-  messages.push(message);
-  res.status(201).json(message);
+  messages.push(newMessage);
+  res.status(201).json(newMessage);
 });
 
-// DELETE /api/messages/:id
+// PUT
+// PUT /api/messages/:id
+router.put('/:id', (req, res) => {
+  const { id } = req.params;
+  const { text } = req.body;
+  
+  const index = messages.findIndex(msg => msg._id === id); // usa _id
+  if (index !== -1) {
+    messages[index].text = text;
+    return res.status(200).json({ message: 'Mensaje actualizado' });
+  }
+  res.status(404).json({ error: 'Mensaje no encontrado' });
+});
+
+
+// DELETE
 router.delete('/:id', (req, res) => {
-  const id = req.params.id;
-  const index = messages.findIndex((msg) => msg._id === id);
+  const { id } = req.params;
+  const index = messages.findIndex(msg => msg._id === id);
   if (index !== -1) {
     messages.splice(index, 1);
-    res.sendStatus(204);
+    res.status(204).send();
   } else {
     res.status(404).json({ error: 'Mensaje no encontrado' });
   }

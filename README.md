@@ -1,233 +1,121 @@
+# 🧪 Práctica 2 - Consumo de una API RESTful desde una Aplicación Frontend
 
-# ⚠️ Tarea 2: Manejo de Excepciones en una Aplicación Node.js (WebChat con Socket.IO)
-
----
-
-## 🧾 Portada
-
-- **Título del informe:** Manejo de excepciones en una aplicación Node.js  
-- **Nombre completo del estudiante:** Adriana Pamela González Orellana  
-- **Carrera / Curso:** 7mo Curso - 23128 Aplicaciones Distribuidas  
-- **Fecha de entrega:** 27 de junio de 2025
-
----
-
-## 🧠 Objetivo General
-
-Realizar un informe técnico detallado sobre las estrategias de manejo de excepciones en Node.js, aplicadas a un proyecto real de la Unidad 1: *WebChat en tiempo real con Socket.IO*.
+**DEPARTAMENTO:** Ciencias de la Computación  
+**CARRERA:** Tecnologías de la Información  
+**ASIGNATURA:** Aplicaciones Distribuidas  
+**NIVEL:** 7°  
+**DOCENTE:** Ing. Paulo Galarza, Mgs.  
+**PRÁCTICA N°:** 2  
+**TEMA DE LA PRÁCTICA:** Consumo de una API RESTful desde una Aplicación Frontend (Angular, Flutter, React o React Native)  
+**ESTUDIANTE:** Adriana Pamela González Orellana  
+**PERÍODO:** 202550  
+**FECHA:** Junio 2025  
 
 ---
 
-## 💡 Introducción
+## 📄 RESUMEN
 
-El manejo de excepciones es un componente esencial en cualquier aplicación backend. Permite detectar, controlar y responder de forma segura a errores imprevistos, mejorando así la estabilidad, seguridad y experiencia de usuario.
+Esta práctica tuvo como objetivo implementar un sistema de chat web utilizando Angular como framework frontend y Node.js con Express como backend. Se consumió una API RESTful creada manualmente que permite realizar operaciones CRUD (crear, leer, actualizar, eliminar) sobre los mensajes. Se integró Socket.IO para facilitar la actualización en tiempo real del chat. A lo largo del proceso se construyó un frontend dinámico con Angular, se probaron los endpoints con herramientas como Postman y se validó la comunicación bidireccional con el backend. El sistema ofrece una interfaz visual amigable y funcional. Esta actividad fortalece el entendimiento de la arquitectura cliente-servidor y el consumo de APIs RESTful desde una aplicación moderna.
 
-En este informe se documenta cómo se integró el manejo de errores en el proyecto **WebChat**, desarrollado previamente en la Unidad 1, utilizando `Node.js`, `Socket.IO` y `Express`.
-
----
-
-## 🛠️ Tecnologías utilizadas
-
-- Node.js  
-- Express.js  
-- Socket.IO  
-- HTML5, CSS3  
-- JavaScript  
-- Bootstrap 5  
+**Palabras clave:** Angular, API RESTful, Socket.IO
 
 ---
 
-## 🚨 Tipos de errores en Node.js
+## 1. INTRODUCCIÓN
 
-| Tipo de Error     | Descripción                                      |
-|-------------------|--------------------------------------------------|
-| `SyntaxError`     | Código mal escrito, error de sintaxis.          |
-| `ReferenceError`  | Variable o constante no definida.               |
-| `TypeError`       | Operación no válida sobre un tipo incorrecto.   |
-| `SystemError`     | Errores del sistema, como problemas de red.     |
-| `CustomError`     | Errores definidos por el desarrollador.         |
+En este laboratorio se buscó aplicar los conocimientos sobre APIs RESTful y su consumo desde una aplicación frontend desarrollada en Angular. Se construyó un sistema de chat funcional, integrando servicios HTTP para consumir endpoints del backend y Socket.IO para actualizar la interfaz en tiempo real. Esta actividad también refuerza el uso de buenas prácticas de desarrollo, organización modular del código y comunicación entre componentes en Angular.
 
 ---
 
-## ✅ Buenas prácticas aplicadas
+## 2. OBJETIVO(S)
 
-- Uso de `try...catch` para capturar excepciones en tiempo real.
-- Validación de entradas desde el cliente.
-- Respuesta clara y directa al cliente usando `socket.emit("error", ...)`.
-- Logging de errores en consola para facilitar el debugging.
-- Desconexión de usuarios anónimos como medida de seguridad.
+**2.1 Objetivo General:**  
+Consumir una API RESTful propia desde una aplicación frontend.
 
----
-
-## 🧪 Ejemplo aplicado a WebChat
-
-### Código implementado para validar el envío de mensajes:
-
-```js
-socket.on("message", (message) => {
-  try {
-    if (!message || typeof message !== "string" || !message.trim()) {
-      throw new Error("El mensaje no puede estar vacío.");
-    }
-
-    io.emit("message", {
-      user: username,
-      message: message.trim(),
-    });
-  } catch (error) {
-    console.error(`❌ Error en mensaje de ${username}:`, error.message);
-    socket.emit("error", `Error en el mensaje: ${error.message}`);
-  }
-});
-```
-
-Este bloque de código impide que se envíen mensajes vacíos y notifica al cliente mediante una alerta personalizada.
+**2.2 Objetivos Específicos:**  
+- Mostrar los datos obtenidos de la API mediante Angular.  
+- Implementar operaciones CRUD sobre los mensajes.  
+- Documentar el proceso en un informe técnico con evidencia visual.
 
 ---
 
-## ♻️ Refactorización aplicada
+## 3. MARCO TEÓRICO
 
-- El archivo `realTimeServer.js` se actualizó para validar conexiones, manejar errores y responder directamente al cliente.
-- Se implementó `socket.on("error", ...)` en el cliente para mostrar mensajes de error en pantalla.
-- Se garantiza que el sistema no se caiga ante entradas inválidas.
+Una API RESTful (Representational State Transfer) permite la comunicación entre sistemas utilizando el protocolo HTTP y operaciones CRUD. Angular, por su parte, es un framework frontend que facilita la construcción de aplicaciones reactivas mediante componentes y servicios. Socket.IO permite la transmisión en tiempo real entre el cliente y el servidor. Estas tecnologías combinadas permiten una experiencia de usuario fluida y dinámica.
 
 ---
 
-## 📸 Evidencia de funcionamiento
+## 4. DESCRIPCIÓN DEL PROCEDIMIENTO
 
-### ❌ Error al enviar mensaje vacío
-Cuando se intenta enviar un mensaje vacío, se activa la validación y se muestra un mensaje de error al usuario:
+- Se configuró el entorno de Angular con `ng new` y se generó un servicio para el consumo de la API (`ChatService`).  
+- Se definieron los endpoints del backend (`/api/messages`) usando Node.js y Express.  
+- Se implementó la funcionalidad en Angular para listar, crear, editar y eliminar mensajes.  
+- Se utilizó Socket.IO para emitir y recibir mensajes en tiempo real.  
+- Se probaron las rutas con Postman y se documentó el proceso.
 
-![Mensaje vacío](capturas/error_vacio.png)
+**Captura - Configuración del API:**  
+![API](capturas/api.PNG)
 
----
+**Captura - Código Backend:**  
+![Backend](capturas/backend.png)
 
-### 👤 Usuario conectado
-Cuando un usuario inicia sesión, se actualiza la lista de usuarios conectados y se muestra su estado en tiempo real:
+**Captura - Vista del frontend en Angular:**  
+![Frontend Angular](capturas/front.png)
 
-![Usuario conectado](capturas/usuario_conectado.png)
-
----
-
-### 🔌 Usuario desconectado
-Al cerrar la pestaña o salir del chat, se actualiza automáticamente la lista de usuarios conectados y se notifica al resto:
-
-![Usuario desconectado](capturas/usuario_desconectado.png)
-
----
-
-## 📁 Estructura del proyecto
-
-```
-chat-manejo-errores/
-│
-├── src/
-│   ├── public/
-│   │   ├── css/
-│   │   ├── js/
-│   │   └── img/
-│   ├── routes/
-│   ├── views/
-│   ├── realTimeServer.js
-│   └── index.js
-│
-├── capturas/
-│   ├── error_vacio.png
-│   ├── usuario_conectado.png
-│   └── usuario_desconectado.png
-│
-├── README.md
-└── package.json
-```
+**Captura - index API:**  
+![Index API](capturas/indexapi.png)
 
 ---
 
-## 🔄 Cómo ejecutar el proyecto
+## 5. ANÁLISIS DE RESULTADOS
 
-1. Clona el repositorio:
+Se validó que el frontend puede consumir correctamente la API:  
+- Los mensajes se muestran al cargar la página.  
+- Se permite enviar nuevos mensajes.  
+- Se puede eliminar mensajes existentes.  
+- Al editar un mensaje, este se actualiza correctamente.  
+- La interfaz es intuitiva y con buena experiencia de usuario.
 
-```bash
-git clone https://github.com/Apgonzlez1/chat-manejo-errores.git
-cd chat-manejo-errores
-```
+**Captura - Chat general:**  
+![Chat general](capturas/chat_general.png)
 
-2. Instala las dependencias:
+**Captura - Envío de mensaje:**  
+![Mensaje enviado](capturas/Mensajeenviado.png)
 
-```bash
-npm install
-```
+**Captura - Edición de mensaje:**  
+![Actualizar mensaje](capturas/Actualizar.png)
 
-3. Inicia la aplicación:
+**Captura - Eliminación de mensaje:**  
+![Mensaje eliminado](capturas/eliminado.png)
 
-```bash
-npm start
-```
-
-4. Abre en el navegador:  
-`http://localhost:3000/register`
-
----
-
-## 📝 Conclusiones
-
-- El manejo de errores en tiempo real es fundamental en aplicaciones con múltiples usuarios simultáneos.
-- Validar las entradas y responder de forma controlada mejora la experiencia del usuario y previene caídas.
-- Refactorizar el código para centralizar la lógica mejora la mantenibilidad del proyecto.
-- Este ejercicio demostró que incluso pequeños cambios de control elevan mucho la robustez del sistema.
+**Captura - Vista del registro:**  
+![Registro](capturas/registro.png)
 
 ---
 
-## 📚 Referencias
+## 6. GRÁFICOS O FOTOGRAFÍAS
 
-- [Node.js - Error Handling](https://nodejs.org/api/errors.html)  
-- [Socket.IO Documentation](https://socket.io/docs/v4/error-handling/)  
-- [MDN Web Docs - try...catch](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Statements/try...catch)  
+Ver sección anterior con capturas de pantallas relevantes al desarrollo y pruebas.
 
 ---
 
-## 📊 Evaluación según Rúbrica
+## 7. DISCUSIÓN
 
-A continuación, se presenta cómo este informe cumple con cada uno de los criterios de evaluación establecidos:
-
-### 🧪 Investigación y Tipos de Errores
-
-Se incluye una explicación detallada y clara sobre los tipos de errores más comunes en Node.js: `SyntaxError`, `TypeError`, `ReferenceError`, `SystemError` y `CustomError`. Cada uno está definido y contextualizado dentro de su uso en desarrollo backend.
-
-✅ **Cumple completamente** con este criterio.
+Esta práctica permitió integrar todos los conocimientos previos sobre consumo de APIs RESTful y desarrollo con Angular. La correcta implementación de las rutas en Express, el diseño modular en Angular y el uso de servicios garantizó la funcionalidad esperada. Uno de los desafíos fue manejar correctamente la actualización del mensaje editado, que se resolvió con ajustes en el backend y en el componente de Angular.
 
 ---
 
-### ⚙️ Aplicación Práctica
+## 8. CONCLUSIONES
 
-Se implementó validación de mensajes vacíos usando bloques `try...catch`, se agregó notificación de errores al cliente, y se documentó con ejemplos reales del proyecto WebChat. Los errores son capturados en tiempo real y el usuario es notificado.
-
-✅ **Cumple completamente** con este criterio.
-
----
-
-### 📏 Uso de Buenas Prácticas
-
-El proyecto aplica buenas prácticas como:
-
-- Uso de `try-catch` para validación de entradas.
-- Logging con `console.error()`.
-- Validación antes de emitir eventos.
-- Respuesta controlada al cliente.
-
-✅ **Cumple completamente** con este criterio.
+- Se logró consumir exitosamente una API RESTful desde Angular.  
+- La aplicación implementa todas las operaciones CRUD sobre los mensajes.  
+- El uso de servicios y componentes en Angular facilita la escalabilidad y mantenimiento del código.
 
 ---
 
-### 📘 Documentación y Claridad del Informe
+## 9. BIBLIOGRAFÍA
 
-El archivo `README.md` presenta:
-
-- Objetivo e introducción.
-- Tipos de errores.
-- Código implementado.
-- Capturas de pantalla.
-- Explicación de cada evidencia.
-- Instrucciones de ejecución.
-- Conclusiones y referencias.
-
-
+- Angular Docs. (2024). [https://angular.io](https://angular.io)  
+- Node.js Docs. (2024). [https://nodejs.org](https://nodejs.org)  
+- Socket.IO Docs. (2024). [https://socket.io](https://socket.io)  
+- Express Docs. (2024). [https://expressjs.com](https://expressjs.com)
